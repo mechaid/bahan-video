@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Arena Bermain Dayjs</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/dayjs.min.js" integrity="sha512-KTFpdbCb05CY4l242bLjyaPhoL9vAy4erP1Wkn7Rji0AG6jx6zzGtKkdHc7jUOYOVSmbMbTg728u260CA/Qugg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/locale/id.min.js" integrity="sha512-7jAZMsrYFwpUDSP04zhNmtX/brZBjT/V60+AMN0h6jwXfLY/1qXFdVOFZmIzbq+h/x4KloWPCN3unFJBFC/7Ug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/customParseFormat.min.js" integrity="sha512-nbPJ/ANJ1DCwUWGyfS+PY7RMysy5UnFyOzPTjzcphOuVbUqrukQAZ9kkNvTkPmItJRuuL5IqNufQTHPyxxpmig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.0/plugin/duration.min.js" integrity="sha512-4/QKmrYrL+3JbEBiIxAUwlsjv1duqB5biE640aqvCJEqgTfyhmCA9WeqJmVfQdeh2hqK9+Fc9WFVpel4N2O/1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> 
+
+    <script>
+      dayjs.locale('id')
+
+      dayjs.extend(dayjs_plugin_customParseFormat)
+      dayjs.extend(dayjs_plugin_duration)
+    </script>
+  </head>
+  <body>
+    <h4>Bermain Dayjs</h4> 
+    <p id="p1"></p>
+    <p id="p2"></p>
+    <p id="p3"></p>
+    <p id="p4"></p>
+    <p id="p5"></p>
+    <p id="p6"></p>
+    <p id="p7"></p>
+    <p id="p8"></p>
+
+    <script>
+      const p1 = document.querySelector("#p1")   
+      const p2 = document.querySelector("#p2")   
+      const p3 = document.querySelector("#p3")   
+      const p4 = document.querySelector("#p4")   
+      const p5 = document.querySelector("#p5")   
+      const p6 = document.querySelector("#p6")   
+      const p7 = document.querySelector("#p7")  
+      const p8 = document.querySelector("#p8")   
+
+      const objDayjs_WaktuSaatIni = dayjs()
+
+      // Waktu saat ini ke format tgl. Indonesia (17 Agustus 1945)
+      const waktuSaatIni_FormatTglIndonesia = objDayjs_WaktuSaatIni.format('D MMMM YYYY')
+      p1.innerHTML = `Waktu saat ini format tgl. Indonesia:<br> <b>${waktuSaatIni_FormatTglIndonesia}</b>`
+
+      // Waktu saat ini ke format SQL
+      const waktuSaatIni_FormatSQL = objDayjs_WaktuSaatIni.format('YYYY-MM-DD HH:mm:ss')
+      p2.innerHTML = `Waktu saat ini format SQL :<br> <b>${waktuSaatIni_FormatSQL}</b>`
+
+      // Membuat objek Dayjs dari string format waktu Indonesia
+      const contoh_FormatWaktuIndonesia = "17 Agustus 1945 08:00"
+      const objDayjs_DariFormatWaktuIndonesia = dayjs(contoh_FormatWaktuIndonesia, "D MMMM YYYY HH:mm")
+      p3.innerHTML = `obj Dayjs dari string waktu Indonesia <b>${contoh_FormatWaktuIndonesia}</b>: <br>` +
+        `<b>${objDayjs_DariFormatWaktuIndonesia.format()}</b>`
+
+      // Format waktu Indonesia dari string waktu API 
+      const contoh_FormatWaktuAPI = "2017-08-28 09:13:22"
+      const formatWaktuIndonesia_DariFormatWaktuAPI = dayjs(contoh_FormatWaktuAPI).format("D MMMM YYYY") 
+      p4.innerHTML = `Format waktu Indonesia dari string waktu API <b>${contoh_FormatWaktuAPI}</b> :` +
+        `<br> <b>${formatWaktuIndonesia_DariFormatWaktuAPI}</b>`
+      
+      // Menambahkan 15 menit ke objek Dayjs
+      const objDayjs_15MenitKedepan = objDayjs_WaktuSaatIni.add(15, 'minute')  
+      p5.innerHTML = `obj Dayjs 15 menit kedepan dari waktu saat ini <b>${objDayjs_WaktuSaatIni.format()}</b>` +
+        `<br> <b>${objDayjs_15MenitKedepan.format()}</b>`
+
+      // Menghitung selisih tahun dari 17 Agustus 1945 pukul 08:00 ke saat ini
+      const selisihTahun_DariFormatWaktuIndonesia = objDayjs_WaktuSaatIni.diff(objDayjs_DariFormatWaktuIndonesia, 'year')
+      p6.innerHTML = `Selisih tahun dari <b>${contoh_FormatWaktuIndonesia}</b> ke saat ini:` +
+        `<br> <b>${selisihTahun_DariFormatWaktuIndonesia} tahun</b>`
+
+      // Menampilkan objek Duration dari selisih tahun antara 17 Agustus 1945 pukul 8:00 ke saat ini
+      const selisihWaktu = objDayjs_WaktuSaatIni.diff(objDayjs_DariFormatWaktuIndonesia)
+      const objDuration = dayjs.duration(selisihWaktu)
+      p7.innerHTML = `obj duration dari <b>${contoh_FormatWaktuIndonesia}</b> ke saat ini : ` +
+        `<br> <b>${objDuration.format("Y")} tahun ${objDuration.format("M")} bulan ${objDuration.format("D")} hari</b>`
+
+      // Cek apakah waktu deadline sudah terlewat
+      const contoh_TglDeadline = "2022-04-06 21:10:00" 
+      const objDayjs_DariTglDeadline = dayjs(contoh_TglDeadline)
+      const apakahMelewatiDeadline = objDayjs_WaktuSaatIni.isAfter(objDayjs_DariTglDeadline)
+
+      p8.innerHTML = `Apakah saat ini sudah lewat deadline <b>${objDayjs_DariTglDeadline.format()}</b> ? :` +
+        `<br> <b>${apakahMelewatiDeadline}</b>`
+      
+
+
+
+    </script>
+  </body>
+</html>
